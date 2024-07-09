@@ -97,38 +97,6 @@ class _LoginState extends State<Login> {
                     foregroundColor: Colors.black,
                   ),
                 ),
-                SizedBox(height: 30.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'or login with',
-                      style: TextStyle(
-                          color: Colors.black
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30.0,),
-                ElevatedButton.icon(
-                  onPressed: (){},
-                  icon: Icon(Icons.login),
-                  label: Text('Sign in with Google'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.red[400],
-                  ),
-                ),
-                SizedBox(height: 15.0,),
-                ElevatedButton.icon(
-                  onPressed: (){},
-                  icon: Icon(Icons.facebook),
-                  label: Text('Sign in with Facebook'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blueAccent,
-                  ),
-                ),
                 SizedBox(height: 10.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

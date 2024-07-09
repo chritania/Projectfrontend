@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key});
+  const Homepage({super.key});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -22,9 +22,16 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void _onPersonIconPressed() {
+    // Define what happens when the person icon is pressed
+    // For example, navigate to the Profile page or show a dialog
+    Navigator.pushNamed(context, '/profile');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent, // Set Scaffold background to transparent
       body: Container(
         decoration: BoxDecoration(
@@ -39,12 +46,21 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                child: Image.asset(
-                  'assets/logo.png',
-                  width: 200,
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                    child: Image.asset(
+                      'assets/logo.png',
+                      width: 200,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.person, size: 40.0,),
+                    onPressed: _onPersonIconPressed,
+                  ),
+                ],
               ),
               SizedBox(height: 20.0,),
               FlutterCarousel(
@@ -81,13 +97,13 @@ class _HomepageState extends State<Homepage> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 8.0,),
+              SizedBox(height: 20.0,),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
                   'Conching\'s Atchara, located @ Poblacion 5 on Marasigan St. in Calaca City, Batangas, has been a beloved local business since its founding in 1957 by Casiana Villamar. Known for its delicious atchara, a traditional Filipino pickled relish, the store has been delighting customers for decades. Conching\'s Atchara has become a household name in the community, cherished for its commitment to quality and tradition. Whether enjoyed as a condiment or a side dish, Conching\'s Atchara brings a taste of heritage to every bite.',
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 16.0,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.justify,
@@ -107,7 +123,7 @@ class _HomepageState extends State<Homepage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
-            label: 'Product',
+            label: 'Menu',
           ),
         ],
       ),
@@ -116,6 +132,8 @@ class _HomepageState extends State<Homepage> {
 }
 
 class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -131,6 +149,8 @@ class DashboardScreen extends StatelessWidget {
 }
 
 class ProductScreen extends StatelessWidget {
+  const ProductScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -140,6 +160,22 @@ class ProductScreen extends StatelessWidget {
           'assets/logo.png',
           fit: BoxFit.contain,
         ),
+      ),
+    );
+  }
+}
+
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: Center(
+        child: Text('Profile Screen'),
       ),
     );
   }

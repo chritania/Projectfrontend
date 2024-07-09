@@ -149,40 +149,8 @@ class _SignupState extends State<Signup> {
                         },
                         child: Text('Create Account'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.yellow[200],
+                          backgroundColor: Colors.yellow,
                           foregroundColor: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 30.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'or signup with',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30.0),
-                      ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.login),
-                        label: Text('Log in with Google'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red[400],
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 7.0),
-                      ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: Icon(Icons.facebook),
-                        label: Text('Log in with Facebook'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          foregroundColor: Colors.white,
                         ),
                       ),
                       SizedBox(height: 50.0),
