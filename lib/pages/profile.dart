@@ -96,7 +96,7 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: (){
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacementNamed(context, '/Login');
             },
           ),
         ],

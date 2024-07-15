@@ -7,9 +7,10 @@ import 'package:project/pages/profile.dart';
 
 import 'package:project/pages/Signup.dart';
 import 'package:project/pages/home.dart';
+import 'package:project/services/transactionHistory.dart';
 
 void main() =>runApp(MaterialApp(
-  initialRoute: '/menu',
+  initialRoute: '/Login',
   routes: {
     '/' : (context) => Homepage(),
     '/Login' : (context) => Login(),
@@ -20,6 +21,7 @@ void main() =>runApp(MaterialApp(
     '/profile':(context) => Profile(),
     '/menu':(context) => Menu(),
     '/Homepage': (context) => Homepage(),
+    '/transactionHistory': (context) => transactionHistory(),
 
 
 
