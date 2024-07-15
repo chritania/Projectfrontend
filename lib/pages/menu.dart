@@ -1,22 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:project/services/product.dart';
-import 'package:project/services/menuCard.dart';
+
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
+
   @override
   State<Menu> createState() => _MenuState();
-  }
+}
 
 class _MenuState extends State<Menu> {
-  List products = <Product>[
-    Product(productName: "Papaya", price: 149.99),
-    Product(productName: "Ampalaya", price: 149.99),
-    Product(productName: "Ubod", price: 299.99),
-    Product(productName: "Labong", price: 329.99),
-    Product(productName: "Bawang", price: 149.99),
-  ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +26,18 @@ class _MenuState extends State<Menu> {
             letterSpacing: 2.0,
           ),
         ),
-          centerTitle: true,
-    ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.yellow, Colors.green],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: products.map((product)=> Menucard(product: product)).toList(),
-            ),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.yellow, Colors.green],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
+      ),
+
     );
-    }
   }
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+//HINDI NA TO KASALI ONCE CONNECTED NA SA BACKEND, NEED PA AY MAPAGANA ANG LOGIN AND SIGNUP SA VSC
 class Home extends StatefulWidget {
   const Home({Key? key});
 

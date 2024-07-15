@@ -70,11 +70,11 @@ class _HomepageState extends State<Homepage> {
                   slideIndicator: CircularSlideIndicator(),
                 ),
                 items: [
-                  'assets/ampalaya.png',
-                  'assets/labong.png',
-                  'assets/papaya.png',
-                  'assets/ubod.png',
-                  'assets/bawang.png',
+                  'assets/brittle.png',
+                  'assets/sampaloc.png',
+                  'assets/cashew nuts.png',
+                  'assets/cocoa.png',
+                  'assets/kalamyas.png',
                 ].map((String imagePath) {
                   return Builder(
                     builder: (BuildContext context) {
@@ -101,9 +101,9 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Conching\'s Atchara, located @ Poblacion 5 on Marasigan St. in Calaca City, Batangas, has been a beloved local business since its founding in 1957 by Casiana Villamar. Known for its delicious atchara, a traditional Filipino pickled relish, the store has been delighting customers for decades. Conching\'s Atchara has become a household name in the community, cherished for its commitment to quality and tradition. Whether enjoyed as a condiment or a side dish, Conching\'s Atchara brings a taste of heritage to every bite.',
+                  'Conching\'s Atchara, located @ Poblacion 5 on Marasigan St. in Calaca City, Batangas, has been a beloved local business since its founding in 1957 by Casiana Villamar. Known for its delicious atchara, a traditional Filipino pickled relish, the store has been delighting customers for decades. Conching\'s Atchara has become a household name in the community, cherished for its commitment to quality and tradition.',
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 13.0,
                     color: Colors.black,
                   ),
                   textAlign: TextAlign.justify,
@@ -114,16 +114,34 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: onTabTapped,
-        items: [
+        backgroundColor: Colors.yellow,
+        elevation: 3.0,
+        onTap: (int val){
+          switch(val){
+            case 0:
+              Navigator.pushNamed(context, '/menu');
+              break;
+            case 1:
+              Navigator.pushNamed(context, '/Dashboard');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/transactionHistory');
+              break;
+          }
+        },
+        currentIndex: 0,
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
+              icon: Icon(Icons.fastfood, color: Colors.black),
+              label: 'Menu'
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Menu',
+              icon: Icon(Icons.vertical_align_top, color: Colors.black),
+              label: 'Best Selling'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.vertical_align_top, color: Colors.black),
+              label: 'Transaction History'
           ),
         ],
       ),
