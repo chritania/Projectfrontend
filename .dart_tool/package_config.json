@@ -8,6 +8,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "banner_carousel",
+      "rootUri": "file:///C:/Users/Chritania%20Perez/AppData/Local/Pub/Cache/hosted/pub.dev/banner_carousel-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///C:/Users/Chritania%20Perez/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -134,6 +140,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "searchfield",
+      "rootUri": "file:///C:/Users/Chritania%20Perez/AppData/Local/Pub/Cache/hosted/pub.dev/searchfield-1.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -206,7 +218,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-07-15T03:08:11.703183Z",
+  "generated": "2024-07-16T07:04:24.191402Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///C:/flutter",

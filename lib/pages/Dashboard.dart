@@ -23,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.green,
         foregroundColor:Colors.white70,
         title: Text(
           'Best Selling',
@@ -38,20 +38,24 @@ class _DashboardState extends State<Dashboard> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.yellow, Colors.green],
+            colors: [
+              Colors.green, // Top color
+              Colors.yellow, // Middle color
+              Colors.green, // Bottom color
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'WALK IN BEST SELLING PRODUCTS @ CONCHING\'S ATCHARA & DELICACIES',
+              'Walk in best selling products @ Conching\'s Atchara & Delicacies',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20.0),
             ),
-            SizedBox(height: 30.0,),
+            SizedBox(height: 15.0,),
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Column(

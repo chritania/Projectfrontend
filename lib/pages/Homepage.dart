@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:banner_carousel/banner_carousel.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  const Homepage({Key? key}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -10,10 +10,25 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int _currentIndex = 0;
-
-  final List<Widget> _children = [
-    DashboardScreen(),
-    ProductScreen(),
+  String _searchText = '';
+  final List<BannerModel> listBanners = [
+    BannerModel(imagePath: 'assets/brittle.png', id: '1'),
+    BannerModel(imagePath: 'assets/sampaloc.png', id: '2'),
+    BannerModel(imagePath: 'assets/cashew nuts.png', id: '3'),
+    BannerModel(imagePath: 'assets/cocoa.png', id: '4'),
+    BannerModel(imagePath: 'assets/kalamyas.png', id: '5'),
+  ];
+  final List<Map<String, dynamic>> _items = [
+    {'name': 'Peanut Brittle', 'image': 'assets/brittle.png'},
+    {'name': 'Sampaloc', 'image': 'assets/sampaloc.png'},
+    {'name': 'Cocoa', 'image': 'assets/cocoa.png'},
+    {'name': 'Cashew Nuts', 'image': 'assets/cashew nuts.png'},
+    {'name': 'Kalamyas', 'image': 'assets/kalamyas.png'},
+    {'name': 'Labong', 'image': 'assets/labong.png'},
+    {'name': 'Ubod', 'image': 'assets/ubod.png'},
+    {'name': 'Papaya', 'image': 'assets/papaya.png'},
+    {'name': 'Ampalaya', 'image': 'assets/ampalaya.png'},
+    {'name': 'Burong Bawang', 'image': 'assets/bawang.png'},
   ];
 
   void onTabTapped(int index) {
@@ -23,22 +38,40 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _onPersonIconPressed() {
-    // Define what happens when the person icon is pressed
-    // For example, navigate to the Profile page or show a dialog
     Navigator.pushNamed(context, '/profile');
+  }
+
+  void _onCartIconPressed() {
+    Navigator.pushNamed(context, '/cart');
+  }
+
+  void onSearchTextChanged(String text) {
+    setState(() {
+      _searchText = text.toLowerCase();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Filter items based on search text
+    List<Map<String, dynamic>> filteredItems = _items.where((item) {
+      return _searchText.isEmpty || item['name'].toLowerCase().contains(_searchText);
+    }).toList();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.transparent, // Set Scaffold background to transparent
+      backgroundColor: Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.yellow, Colors.green],
+            colors: [
+              Colors.green, // Top color
+              Colors.yellow, // Middle color
+              Colors.green, // Bottom color
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
           ),
         ),
         child: SafeArea(
@@ -46,75 +79,86 @@ class _HomepageState extends State<Homepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                    child: Image.asset(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
                       'assets/logo.png',
                       width: 200,
                     ),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(Icons.person, size: 40.0,),
-                    onPressed: _onPersonIconPressed,
-                  ),
-                ],
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.shopping_cart),
+                          onPressed: _onCartIconPressed,
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.person),
+                          onPressed: _onPersonIconPressed,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20.0,),
-              FlutterCarousel(
-                options: CarouselOptions(
-                  height: 400.0,
-                  showIndicator: true,
-                  slideIndicator: CircularSlideIndicator(),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 50.0,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Available Products...',
+                        border: InputBorder.none,
+                        icon: Icon(Icons.search, color: Colors.grey),
+                      ),
+                      onChanged: onSearchTextChanged,
+                    ),
+                  ),
                 ),
-                items: [
-                  'assets/brittle.png',
-                  'assets/sampaloc.png',
-                  'assets/cashew nuts.png',
-                  'assets/cocoa.png',
-                  'assets/kalamyas.png',
-                ].map((String imagePath) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image.asset(
-                            imagePath,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+              ),
+              SizedBox(height: 30,),
+              // Conditional rendering of product list
+              if (_searchText.isNotEmpty) // Show only when there is search text
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(filteredItems[index]['name']),
+                        leading: Image.asset(filteredItems[index]['image']),
+                        onTap: () {
+                          // Handle item tap if needed
+                        },
                       );
                     },
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 20.0,),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Conching\'s Atchara, located @ Poblacion 5 on Marasigan St. in Calaca City, Batangas, has been a beloved local business since its founding in 1957 by Casiana Villamar. Known for its delicious atchara, a traditional Filipino pickled relish, the store has been delighting customers for decades. Conching\'s Atchara has become a household name in the community, cherished for its commitment to quality and tradition.',
-                  style: TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.black,
                   ),
-                  textAlign: TextAlign.justify,
                 ),
+              SizedBox(height: 30,),
+              BannerCarousel(
+                banners: listBanners,
+                customizedIndicators: IndicatorModel.animation(width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
+                height: 200,
+                activeColor: Colors.amberAccent,
+                disableColor: Colors.white,
+                animation: true,
+                borderRadius: 10,
+                width: 400,
+                indicatorBottom: false,
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.green[400],
         elevation: 3.0,
         onTap: (int val){
           switch(val){
@@ -132,7 +176,7 @@ class _HomepageState extends State<Homepage> {
         currentIndex: 0,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.fastfood, color: Colors.black),
+              icon: Icon(Icons.shopping_cart, color: Colors.black),
               label: 'Menu'
           ),
           BottomNavigationBarItem(
@@ -140,7 +184,7 @@ class _HomepageState extends State<Homepage> {
               label: 'Best Selling'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.vertical_align_top, color: Colors.black),
+              icon: Icon(Icons.history, color: Colors.black),
               label: 'Transaction History'
           ),
         ],
@@ -149,52 +193,22 @@ class _HomepageState extends State<Homepage> {
   }
 }
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 360,
-        child: Image.asset(
-          'assets/tinda.png',
-          fit: BoxFit.contain,
-        ),
-      ),
-    );
-  }
+void main() {
+  runApp(const MyApp());
 }
 
-class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 360,
-        child: Image.asset(
-          'assets/logo.png',
-          fit: BoxFit.contain,
-        ),
+    return MaterialApp(
+      title: 'Flutter App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Center(
-        child: Text('Profile Screen'),
-      ),
+      home: Homepage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
