@@ -38,6 +38,8 @@ dependencies:
   infinite_carousel: ^1.1.1
   flutter_carousel_widget: ^2.2.0
   http: ^1.2.1
+  searchfield: ^1.0.6
+  banner_carousel: ^1.2.1
 
 dev_dependencies:
   flutter_test:

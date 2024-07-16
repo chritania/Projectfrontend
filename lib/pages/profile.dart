@@ -90,7 +90,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.green,
         centerTitle: true,
         actions: [
           IconButton(
@@ -104,9 +104,14 @@ class _ProfileState extends State<Profile> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.yellow, Colors.green],
+            colors: [
+              Colors.green, // Top color
+              Colors.yellow, // Middle color
+              Colors.green, // Bottom color
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
           ),
         ),
         child: Padding(
@@ -115,7 +120,7 @@ class _ProfileState extends State<Profile> {
             children: <Widget>[
               Center(
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/logo.png'),
+                  backgroundImage: AssetImage('assets/babae.png'),
                   radius: 70.0,
                 ),
               ),

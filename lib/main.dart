@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/pages/Cart.dart';
 import 'package:project/pages/Homepage.dart';
 import 'package:project/pages/Dashboard.dart';
 import 'package:project/pages/Login.dart';
@@ -10,7 +11,7 @@ import 'package:project/pages/home.dart';
 import 'package:project/services/transactionHistory.dart';
 
 void main() =>runApp(MaterialApp(
-  initialRoute: '/Login',
+  initialRoute: '/',
   routes: {
     '/' : (context) => Homepage(),
     '/Login' : (context) => Login(),
@@ -22,6 +23,7 @@ void main() =>runApp(MaterialApp(
     '/menu':(context) => Menu(),
     '/Homepage': (context) => Homepage(),
     '/transactionHistory': (context) => transactionHistory(),
+    '/cart': (context) => Cart(),
 
 
 

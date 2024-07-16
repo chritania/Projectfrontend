@@ -47,9 +47,14 @@ class _LoginState extends State<Login> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.yellow, Colors.green],
+            colors: [
+              Colors.yellow, // Top color
+              Colors.green, // Middle color
+              Colors.yellow, // Bottom color
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
           ),
         ),
         child: SafeArea(
@@ -63,7 +68,7 @@ class _LoginState extends State<Login> {
                     width: 360,
                   ),
                 ),
-                SizedBox(height: 80.0,),
+                SizedBox(height: 60.0,),
                 Text(
                   'Welcome Back!',
                   style: TextStyle(
