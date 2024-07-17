@@ -92,6 +92,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "icon_badge",
+      "rootUri": "file:///C:/Users/BatStateU/AppData/Local/Pub/Cache/hosted/pub.dev/icon_badge-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "infinite_carousel",
       "rootUri": "file:///C:/Users/BatStateU/AppData/Local/Pub/Cache/hosted/pub.dev/infinite_carousel-1.1.1",
       "packageUri": "lib/",
@@ -224,7 +230,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2024-07-17T02:34:55.858228Z",
+  "generated": "2024-07-17T06:13:54.606102Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///D:/flutter",

@@ -49,7 +49,7 @@ class _selectedProductState extends State<selectedProduct> {
               fontSize: 20.0,
             ),
           ),
-          SizedBox(height: 20.0,),
+          SizedBox(height: 50.0,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -94,7 +94,7 @@ class _selectedProductState extends State<selectedProduct> {
           SizedBox(height: 50,),
           ElevatedButton(
             onPressed: (){
-              Navigator.pushNamed(context, '/menu');
+              Navigator.pushNamed(context, '/cart');
             }
             , child: Text(
             '         Add to cart      ',

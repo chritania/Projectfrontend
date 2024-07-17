@@ -8,8 +8,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String address = '001 Purok 7 Dalig, Batangas City';
-  String phoneNumber = '0987 654 3210';
+  String address = '';
+  String phoneNumber = '';
 
   void _changeAddress() {
     showDialog(
