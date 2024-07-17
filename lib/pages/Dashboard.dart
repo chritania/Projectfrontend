@@ -11,11 +11,11 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   List products = <Product>[
-    Product(productName: "Papaya", price: 149.99),
-    Product(productName: "Ampalaya", price: 149.99),
-    Product(productName: "Ubod", price: 299.99),
-    Product(productName: "Labong", price: 329.99),
-    Product(productName: "Bawang", price: 149.99),
+    //Product(productName: "Papaya", price: 149.99),
+    //Product(productName: "Ampalaya", price: 149.99),
+    //Product(productName: "Ubod", price: 299.99),
+    //Product(productName: "Labong", price: 329.99),
+    //Product(productName: "Bawang", price: 149.99),
   ];
 
 

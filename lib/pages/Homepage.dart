@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:icon_badge/icon_badge.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -91,10 +92,6 @@ class _HomepageState extends State<Homepage> {
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.shopping_cart),
-                          onPressed: _onCartIconPressed,
-                        ),
-                        IconButton(
                           icon: Icon(Icons.person),
                           onPressed: _onPersonIconPressed,
                         ),
@@ -171,6 +168,9 @@ class _HomepageState extends State<Homepage> {
             case 2:
               Navigator.pushNamed(context, '/transactionHistory');
               break;
+            case 3:
+              Navigator.pushNamed(context, '/Cart');
+              break;
           }
         },
         currentIndex: 0,
@@ -186,6 +186,10 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.history, color: Colors.black),
               label: 'Transaction History'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_bag, color: Colors.black),
+              label: 'Cart'
           ),
         ],
       ),
