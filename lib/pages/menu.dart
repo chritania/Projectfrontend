@@ -42,63 +42,78 @@ class _MenuState extends State<Menu> {
         title: Text(
           'Menu',
           style: TextStyle(
+            color: Colors.black,
             fontWeight: FontWeight.w600,
             letterSpacing: 2.0,
           ),
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: FutureBuilder(
-          future: products,
-          builder: (context, snapshots){
-            if(snapshots.connectionState == ConnectionState.waiting){
-              return Center(
-                child:CircularProgressIndicator(
-                  color: Colors.green,
-                ),
-              );
-            }
-            if(snapshots.hasData){
-              List products = snapshots.data!;
-              print(products);
-              return Padding(
-                padding: EdgeInsets.all(3.0),
-                child: ListView.builder(
-                    itemCount: products.length,
-                    itemBuilder: (context, index){
-                      return Card(
-                        child: ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(products[index].productName),
-                              Text(products[index].price.toString()),
-                            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.green, // Top color
+              Colors.yellow, // Middle color
+              Colors.green, // Bottom color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          child: FutureBuilder(
+            future: products,
+            builder: (context, snapshots){
+              if(snapshots.connectionState == ConnectionState.waiting){
+                return Center(
+                  child:CircularProgressIndicator(
+                    color: Colors.green,
+                  ),
+                );
+              }
+              if(snapshots.hasData){
+                List products = snapshots.data!;
+                print(products);
+                return Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index){
+                        return Card(
+                          child: ListTile(
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(products[index].productName),
+                                Text(products[index].price.toString()),
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => selectedProduct(product: products[index]),
+                                ),
+                              );
+                            },
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => selectedProduct(product: products[index]),
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                        );
 
-                    }
-                ),
+                      }
+                  ),
+                );
+              }
+              if(snapshots.hasError){
+                print(snapshots.error);
+              }
+              return Center(
+                child: Text('Unable to load data'),
               );
-            }
-            if(snapshots.hasError){
-              print(snapshots.error);
-            }
-            return Center(
-              child: Text('Unable to load data'),
-            );
-          },
+            },
+          ),
         ),
       ),
     );

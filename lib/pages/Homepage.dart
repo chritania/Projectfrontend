@@ -163,13 +163,10 @@ class _HomepageState extends State<Homepage> {
               Navigator.pushNamed(context, '/menu');
               break;
             case 1:
-              Navigator.pushNamed(context, '/Dashboard');
+              Navigator.pushNamed(context, '/cart');
               break;
             case 2:
               Navigator.pushNamed(context, '/transactionHistory');
-              break;
-            case 3:
-              Navigator.pushNamed(context, '/Cart');
               break;
           }
         },
@@ -180,16 +177,12 @@ class _HomepageState extends State<Homepage> {
               label: 'Menu'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.vertical_align_top, color: Colors.black),
-              label: 'Best Selling'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.history, color: Colors.black),
-              label: 'Transaction History'
-          ),
-          BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag, color: Colors.black),
               label: 'Cart'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.history,color:  Colors.black),
+              label: 'Transaction History'
           ),
         ],
       ),
