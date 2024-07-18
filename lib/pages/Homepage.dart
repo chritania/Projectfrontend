@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:banner_carousel/banner_carousel.dart';
+import 'package:flutter/widgets.dart';
 import 'package:icon_badge/icon_badge.dart';
 
 class Homepage extends StatefulWidget {
@@ -122,6 +123,16 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
               SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                child: Text(
+                  'Welcome to Conchings Atchara and Delicacies App',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
               // Conditional rendering of product list
               if (_searchText.isNotEmpty) // Show only when there is search text
                 Expanded(
@@ -150,6 +161,28 @@ class _HomepageState extends State<Homepage> {
                 width: 400,
                 indicatorBottom: false,
               ),
+              SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0,),
+                child: Text(
+                  'About Us',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0,),
+                child: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at elit commodo, porttitor lectus sed, pretium eros. Nunc pellentesque velit dapibus, accumsan ex et, laoreet mi. Praesent felis arcu, bibendum a vestibulum id, vestibulum a erat. Sed eget odio viverra, accumsan tellus a, pellentesque diam. Nullam sollicitudin enim massa, et tincidunt enim dapibus et. Duis mollis rutrum tortor, vitae faucibus dui aliquet id. Nunc quis maximus tellus, consectetur ornare eros.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -171,13 +204,30 @@ class _HomepageState extends State<Homepage> {
           }
         },
         currentIndex: 0,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart, color: Colors.black),
+              icon: Icon(Icons.menu_sharp, color: Colors.black),
               label: 'Menu'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag, color: Colors.black),
+            icon: Stack(
+              children: <Widget>[Icon(Icons.shopping_cart, color: Colors.black),
+                Positioned(
+                  right: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                    ),
+                ),
+              ],
+            ),
               label: 'Cart'
           ),
           BottomNavigationBarItem(
