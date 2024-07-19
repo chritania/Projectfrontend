@@ -47,6 +47,10 @@ class _HomepageState extends State<Homepage> {
     Navigator.pushNamed(context, '/cart');
   }
 
+  void _onMessageIconPressed() {
+    Navigator.pushNamed(context, '/message');
+  }
+
   void onSearchTextChanged(String text) {
     setState(() {
       _searchText = text.toLowerCase();
@@ -92,6 +96,10 @@ class _HomepageState extends State<Homepage> {
                     ),
                     Row(
                       children: [
+                        IconButton(
+                          icon: Icon(Icons.message),
+                          onPressed: _onMessageIconPressed,
+                        ),
                         IconButton(
                           icon: Icon(Icons.person),
                           onPressed: _onPersonIconPressed,
@@ -210,10 +218,10 @@ class _HomepageState extends State<Homepage> {
               label: 'Menu'
           ),
           BottomNavigationBarItem(
-            icon: Stack(
-              children: <Widget>[Icon(Icons.shopping_cart, color: Colors.black),
-                Positioned(
-                  right: 0,
+              icon: Stack(
+                children: <Widget>[Icon(Icons.shopping_cart, color: Colors.black),
+                  Positioned(
+                    right: 0,
                     child: Container(
                       padding: EdgeInsets.all(1),
                       decoration: BoxDecoration(
@@ -225,9 +233,9 @@ class _HomepageState extends State<Homepage> {
                         minHeight: 12,
                       ),
                     ),
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
               label: 'Cart'
           ),
           BottomNavigationBarItem(
