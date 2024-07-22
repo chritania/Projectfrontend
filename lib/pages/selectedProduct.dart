@@ -1,108 +1,226 @@
-import'package:flutter/material.dart';
-
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/product.dart';
-
 
 class selectedProduct extends StatefulWidget {
   final Product product;
-  const selectedProduct({super.key,required this.product});
+  const selectedProduct({super.key, required this.product});
 
   @override
-
   State<selectedProduct> createState() => _selectedProductState(product: product);
 }
 
 class _selectedProductState extends State<selectedProduct> {
   final Product product;
-  late double totalAmount = product.price;
-  int numbersOfOrders =1;
+  double totalAmount = 0.0;
+  int numberOfOrder = 1;
+
   _selectedProductState({required this.product});
 
+  Future<Map<String, dynamic>> _loadCredential() async {
+    final prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString('email') ?? '';
+    String password = prefs.getString('password') ?? '';
+    int userId = prefs.getInt('userId') ?? 0;
+
+    return <String, dynamic>{
+      'email': email,
+      'password': password,
+      'userId': userId,
+    };
+  }
+
+  Future<Map<String, dynamic>> addToBag(int productId, int numberOfOrder) async {
+    try {
+      final userCredentials = await _loadCredential();
+      final basicAuth = base64Encode(utf8.encode('${userCredentials['email']}:${userCredentials['password']}'));
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/api/v1/bag'),
+        headers: <String, String>{
+          'Authorization': 'Basic $basicAuth',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, int>{
+          'userId': userCredentials['userId'],
+          'productId': productId,
+          'numberOfOrder': numberOfOrder,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return <String, dynamic>{
+          "isOk": true,
+          "result": response.body,
+        };
+      }
+      return <String, dynamic>{
+        "isOk": false,
+        "result": response.body,
+      };
+    } catch (err) {
+      return <String, dynamic>{
+        "isOk": false,
+        "result": err.toString(),
+      };
+    }
+  }
+
+  buildShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: SpinKitCircle(
+            color: Colors.black,
+            size: 100,
+          ),
+        );
+      },
+    );
+  }
+
+  createSnackBar(String content) {
+    return SnackBar(
+      content: Text(content),
+      duration: const Duration(seconds: 5),
+    );
+  }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     totalAmount = product.price;
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text(
-          'Order',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text('Order'),
+        backgroundColor: Colors.orange[400],
       ),
       body: Column(
-
-        children: [
-          SizedBox(height: 20.0,),
-          Text(widget.product.productName,
-            style: TextStyle(
-              fontSize: 40.0,
-            ),
-          ),
-          SizedBox(height: 20.0,),
-          Text(widget.product.description,
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          SizedBox(height: 50.0,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
             children: [
-              Text(
-                '₱ ${totalAmount.toString()}',
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
+              Container(
+                width: 400,
+                height: 400,
+                // Add an image or any other widget here
               ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    onPressed: (){
-                      setState(() {
-                        if(numbersOfOrders > 1){
-                          numbersOfOrders -= 1;
-                          totalAmount = product.price * numbersOfOrders;
-                        }
-                      });
-                    },
-                    icon: Icon(Icons.remove),
-                  ),
                   Text(
-                    numbersOfOrders.toString(),
-                    style: TextStyle(
-                      fontSize: 20.0,
+                    product.productName,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  IconButton(
-                    onPressed:(){
-                      setState(() {
-                        numbersOfOrders += 1;
-                        totalAmount = product.price * numbersOfOrders;
-                      });
-                    },
-                    icon: Icon(Icons.add),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                    child: Text(
+                      product.description,
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: 50,),
-          ElevatedButton(
-            onPressed: (){
-              Navigator.pushNamed(context, '/cart');
-            }
-            , child: Text(
-            '         Add to cart      ',
-            style: TextStyle(
-              fontSize: 15.0,
-              fontWeight: FontWeight.bold,
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '₱${totalAmount.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (numberOfOrder > 1) {
+                                numberOfOrder -= 1;
+                              }
+                              totalAmount = product.price * numberOfOrder;
+                            });
+                          },
+                          icon: const Icon(Icons.remove),
+                          style: IconButton.styleFrom(
+                            side: BorderSide(
+                              style: BorderStyle.solid,
+                              width: 3.0,
+                              color: Colors.grey[500]!,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
+                        Text(
+                          numberOfOrder.toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              numberOfOrder += 1;
+                              totalAmount = product.price * numberOfOrder;
+                            });
+                          },
+                          icon: const Icon(Icons.add),
+                          style: IconButton.styleFrom(
+                            side: BorderSide(
+                              style: BorderStyle.solid,
+                              width: 3.0,
+                              color: Colors.grey[500]!,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    buildShowDialog(context);
+                    final result = await addToBag(product.id, numberOfOrder);
+                    ScaffoldMessenger.of(context).showSnackBar(createSnackBar(result['result']));
+
+                    if (result['isOk']) {
+                      Navigator.pushReplacementNamed(context, '/bag');
+                    } else {
+                      print(result['result']);
+                      Navigator.of(context).pop(); // terminate loading
+                    }
+                  },
+                  child: const Text('Add to my bag'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange[400],
+                    foregroundColor: Colors.white70,
+                  ),
+                ),
+              ],
             ),
-          ),
           ),
         ],
       ),
