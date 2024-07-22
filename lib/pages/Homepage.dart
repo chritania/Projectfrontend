@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/widgets.dart';
-import 'package:icon_badge/icon_badge.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -45,10 +44,6 @@ class _HomepageState extends State<Homepage> {
 
   void _onCartIconPressed() {
     Navigator.pushNamed(context, '/cart');
-  }
-
-  void _onMessageIconPressed() {
-    Navigator.pushNamed(context, '/message');
   }
 
   void onSearchTextChanged(String text) {
@@ -97,8 +92,8 @@ class _HomepageState extends State<Homepage> {
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(Icons.message),
-                          onPressed: _onMessageIconPressed,
+                          icon: Icon(Icons.shopping_cart),
+                          onPressed: _onCartIconPressed,
                         ),
                         IconButton(
                           icon: Icon(Icons.person),
@@ -130,17 +125,7 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
               ),
-              SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                child: Text(
-                  'Welcome to Conchings Atchara and Delicacies App',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+              SizedBox(height: 20.0,),
               // Conditional rendering of product list
               if (_searchText.isNotEmpty) // Show only when there is search text
                 Expanded(
@@ -157,40 +142,25 @@ class _HomepageState extends State<Homepage> {
                     },
                   ),
                 ),
-              SizedBox(height: 30,),
-              BannerCarousel(
-                banners: listBanners,
-                customizedIndicators: IndicatorModel.animation(width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
-                height: 200,
-                activeColor: Colors.amberAccent,
-                disableColor: Colors.white,
-                animation: true,
-                borderRadius: 10,
-                width: 400,
-                indicatorBottom: false,
-              ),
-              SizedBox(height: 30,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0,),
-                child: Text(
-                  'About Us',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
+              if (_searchText.isEmpty) // Show the banner when there is no search text
+                Expanded(
+                  child: Column(
+                    children: [
+                      BannerCarousel(
+                        banners: listBanners,
+                        customizedIndicators: IndicatorModel.animation(width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
+                        height: 200,
+                        activeColor: Colors.amberAccent,
+                        disableColor: Colors.white,
+                        animation: true,
+                        borderRadius: 10,
+                        width: 400,
+                        indicatorBottom: false,
+                      ),
+                      SizedBox(height: 30,),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(height: 8,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0,),
-                child: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at elit commodo, porttitor lectus sed, pretium eros. Nunc pellentesque velit dapibus, accumsan ex et, laoreet mi. Praesent felis arcu, bibendum a vestibulum id, vestibulum a erat. Sed eget odio viverra, accumsan tellus a, pellentesque diam. Nullam sollicitudin enim massa, et tincidunt enim dapibus et. Duis mollis rutrum tortor, vitae faucibus dui aliquet id. Nunc quis maximus tellus, consectetur ornare eros.',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -204,9 +174,6 @@ class _HomepageState extends State<Homepage> {
               Navigator.pushNamed(context, '/menu');
               break;
             case 1:
-              Navigator.pushNamed(context, '/cart');
-              break;
-            case 2:
               Navigator.pushNamed(context, '/transactionHistory');
               break;
           }
@@ -216,27 +183,6 @@ class _HomepageState extends State<Homepage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.menu_sharp, color: Colors.black),
               label: 'Menu'
-          ),
-          BottomNavigationBarItem(
-              icon: Stack(
-                children: <Widget>[Icon(Icons.shopping_cart, color: Colors.black),
-                  Positioned(
-                    right: 0,
-                    child: Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 12,
-                        minHeight: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              label: 'Cart'
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.history,color:  Colors.black),
