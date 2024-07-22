@@ -99,130 +99,144 @@ class _selectedProductState extends State<selectedProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text('Order'),
-        backgroundColor: Colors.orange[400],
+        backgroundColor: Colors.green,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            children: [
-              Container(
-                width: 400,
-                height: 400,
-                // Add an image or any other widget here
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.productName,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.green, // Top color
+              Colors.yellow, // Middle color
+              Colors.green, // Bottom color
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.5, 1.0], // Gradient stops for each color
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: [
+                Container(
+                  width: 400,
+                  height: 400,
+                  // Add an image or any other widget here
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      product.productName,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    SizedBox(height: 15.0,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                      child: Text(
+                        product.description,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              color: Colors.yellow[50],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '₱${totalAmount.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (numberOfOrder > 1) {
+                                  numberOfOrder -= 1;
+                                }
+                                totalAmount = product.price * numberOfOrder;
+                              });
+                            },
+                            icon: const Icon(Icons.remove),
+                            style: IconButton.styleFrom(
+                              side: BorderSide(
+                                style: BorderStyle.solid,
+                                width: 3.0,
+                                color: Colors.grey[500]!,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          Text(
+                            numberOfOrder.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                numberOfOrder += 1;
+                                totalAmount = product.price * numberOfOrder;
+                              });
+                            },
+                            icon: const Icon(Icons.add),
+                            style: IconButton.styleFrom(
+                              side: BorderSide(
+                                style: BorderStyle.solid,
+                                width: 3.0,
+                                color: Colors.grey[500]!,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-                    child: Text(
-                      product.description,
-                      textAlign: TextAlign.justify,
+                  ElevatedButton(
+                    onPressed: () async {
+                      buildShowDialog(context);
+                      final result = await addToBag(product.id, numberOfOrder);
+                      ScaffoldMessenger.of(context).showSnackBar(createSnackBar(result['result']));
+
+                      if (result['isOk']) {
+                        Navigator.pushReplacementNamed(context, '/bag');
+                      } else {
+                        print(result['result']);
+                        Navigator.of(context).pop(); // terminate loading
+                      }
+                    },
+                    child: const Text('Add to my bag'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white70,
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '₱${totalAmount.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (numberOfOrder > 1) {
-                                numberOfOrder -= 1;
-                              }
-                              totalAmount = product.price * numberOfOrder;
-                            });
-                          },
-                          icon: const Icon(Icons.remove),
-                          style: IconButton.styleFrom(
-                            side: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 3.0,
-                              color: Colors.grey[500]!,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 5.0),
-                        Text(
-                          numberOfOrder.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        const SizedBox(width: 5.0),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              numberOfOrder += 1;
-                              totalAmount = product.price * numberOfOrder;
-                            });
-                          },
-                          icon: const Icon(Icons.add),
-                          style: IconButton.styleFrom(
-                            side: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 3.0,
-                              color: Colors.grey[500]!,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    buildShowDialog(context);
-                    final result = await addToBag(product.id, numberOfOrder);
-                    ScaffoldMessenger.of(context).showSnackBar(createSnackBar(result['result']));
-
-                    if (result['isOk']) {
-                      Navigator.pushReplacementNamed(context, '/bag');
-                    } else {
-                      print(result['result']);
-                      Navigator.of(context).pop(); // terminate loading
-                    }
-                  },
-                  child: const Text('Add to my bag'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange[400],
-                    foregroundColor: Colors.white70,
-                  ),
-                ),
-              ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
