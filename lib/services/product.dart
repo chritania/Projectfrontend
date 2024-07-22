@@ -1,30 +1,35 @@
-class Product{
-  int id;
-  String productName;
-  String description;
-  double price;
+class Product {
+  final int id;
+  final String productName;
+  final String description;
+  final double price;
+
 
   Product({
     required this.id,
     required this.productName,
     required this.description,
-    required this.price});
+    required this.price,
 
-  factory Product.fromJson(Map<String, dynamic> json){
-    return switch(json){
-      {
-      'id' : int id,
-      'productname' : String productName,
-      'description' : String description,
-      'price' : double price,
-      } =>
-          Product(
-            id: id,
-            productName: productName,
-            description: description,
-            price: price,
-          ),
-      _ => throw FormatException('Unable to load Product'),
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['productId'],
+      productName: json['name'],
+      description: json['description'],
+      price: json['price'].toDouble(),
+
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productId': id,
+      'name': productName,
+      'description': description,
+      'price': price,
+
     };
   }
 }
