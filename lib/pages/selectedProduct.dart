@@ -215,23 +215,33 @@ class _selectedProductState extends State<selectedProduct> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
+                      // Show a loading dialog or some indication of progress
                       buildShowDialog(context);
-                      final result = await addToBag(product.id, numberOfOrder);
-                      ScaffoldMessenger.of(context).showSnackBar(createSnackBar(result['result']));
 
-                      if (result['isOk']) {
-                        Navigator.pushReplacementNamed(context, '/bag');
-                      } else {
-                        print(result['result']);
-                        Navigator.of(context).pop(); // terminate loading
-                      }
+                      // Perform the async operation to add the item to the bag
+                      final result = await addToBag(product.id, numberOfOrder);
+
+                      // Close the loading dialog
+                      Navigator.pop(context);
+
+                      // Show a SnackBar with the result
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('ADDED'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+
+                      // Navigate to the cart screen
+                      Navigator.pushReplacementNamed(context, '/cart');
                     },
-                    child: const Text('Add to my bag'),
+                    child: const Text('Add to my cart'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.white70,
                     ),
-                  ),
+                  )
+
                 ],
               ),
             ),

@@ -8,27 +8,29 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String name = '';
+  String username = '';
   String address = '';
   String phoneNumber = '';
 
-  void _changeAddress() {
+  void _changeField(String currentValue, String hintText, Function(String) onSave) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        TextEditingController _addressController = TextEditingController(text: address);
+        TextEditingController _controller = TextEditingController(text: currentValue);
         return AlertDialog(
-          title: Text('Change Address'),
+          title: Text('Change'),
           content: TextField(
-            controller: _addressController,
+            controller: _controller,
             decoration: InputDecoration(
-              hintText: 'Enter new address',
+              hintText: hintText,
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
                 setState(() {
-                  address = _addressController.text;
+                  onSave(_controller.text);
                 });
                 Navigator.of(context).pop();
               },
@@ -44,50 +46,28 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  void _changeName() {
+    _changeField(name, 'Enter new name', (newName) => name = newName);
+  }
+
+  void _changeUsername() {
+    _changeField(username, 'Enter new username', (newUsername) => username = newUsername);
+  }
+
+  void _changeAddress() {
+    _changeField(address, 'Enter new address', (newAddress) => address = newAddress);
   }
 
   void _changePhoneNumber() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController _phoneController = TextEditingController(text: phoneNumber);
-        return AlertDialog(
-          title: Text('Change Phone Number'),
-          content: TextField(
-            controller: _phoneController,
-            decoration: InputDecoration(
-              hintText: 'Enter new phone number',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  phoneNumber = _phoneController.text;
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text('Save'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-          ],
-        );
-      },
-    );
+    _changeField(phoneNumber, 'Enter new phone number', (newPhoneNumber) => phoneNumber = newPhoneNumber);
   }
-
-  //void () {
-   // Navigator.pushReplacementNamed(context, '/login'); // Replace with your login route
-  //}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Profile'),
         backgroundColor: Colors.green,
@@ -95,7 +75,7 @@ class _ProfileState extends State<Profile> {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: (){
+            onPressed: () {
               Navigator.pushReplacementNamed(context, '/Login');
             },
           ),
@@ -143,13 +123,18 @@ class _ProfileState extends State<Profile> {
                       letterSpacing: 1.5,
                     ),
                   ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.black),
+                    onPressed: _changeName,
+                  ),
                 ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Casiana C. Villamar',
+                    name.isEmpty ? '' : name,
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.black,
@@ -172,13 +157,18 @@ class _ProfileState extends State<Profile> {
                       letterSpacing: 1.5,
                     ),
                   ),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(Icons.edit, color: Colors.black),
+                    onPressed: _changeUsername,
+                  ),
                 ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'casiana57',
+                    username.isEmpty ? '' : username,
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
@@ -212,7 +202,7 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    phoneNumber,
+                    phoneNumber.isEmpty ? '' : phoneNumber,
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,
@@ -246,7 +236,7 @@ class _ProfileState extends State<Profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    address,
+                    address.isEmpty ? '' : address,
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,

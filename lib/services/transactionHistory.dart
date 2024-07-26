@@ -9,10 +9,6 @@ class transactionHistory extends StatefulWidget {
 
 class _TransactionHistoryState extends State<transactionHistory> {
   final List<Map<String, String>> transactions = [
-    {"date": "2024-07-01", "description": "Groceries", "amount": "\$50.00"},
-    {"date": "2024-07-02", "description": "Electricity Bill", "amount": "\$30.00"},
-    {"date": "2024-07-03", "description": "Online Shopping", "amount": "\$120.00"},
-    {"date": "2024-07-04", "description": "Dinner", "amount": "\$25.00"},
   ];
 
   @override
