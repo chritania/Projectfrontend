@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -64,6 +66,32 @@ class _ProfileState extends State<Profile> {
     _changeField(phoneNumber, 'Enter new phone number', (newPhoneNumber) => phoneNumber = newPhoneNumber);
   }
 
+  buildShowDialog(BuildContext context){
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return Center(
+            child: SpinKitCubeGrid(
+              color: Colors.orange[400],
+              size: 100,
+            ),
+          );
+        });
+  }
+
+  Future<bool> _logout() async{
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('email');
+      await prefs.remove('password');
+      await prefs.remove('userId');
+      return true;
+    }catch(err){
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +104,16 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/Login');
-            },
+              buildShowDialog(context);
+              _logout().then((result) {
+                if (result) {
+                  Navigator.pushReplacementNamed(context, '/Login');
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              );
+            }
           ),
         ],
       ),

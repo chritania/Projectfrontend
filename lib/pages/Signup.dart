@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import '../services/user.dart';
 
@@ -19,19 +20,50 @@ class _SignupState extends State<Signup> {
   bool _obscure = true;
   IconData _obscureIcon = Icons.visibility_off;
 
-  createAccount(User user) async {
+  Widget buttonContent = Text('Sign up');
+
+  Widget loadingDisplay = CircularProgressIndicator();
+
+  buildShowDialog(BuildContext context){
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return Center(
+            child: SpinKitCubeGrid(
+              color: Colors.orange[400],
+              size: 100,
+            ),
+          );
+        });
+  }
+
+  createSnackBar(String content){
+    return SnackBar(
+      content: Text(content),
+      duration: Duration(seconds: 5),
+    );
+  }
+
+  Future<dynamic>createAccount(User user) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/api/v1/auth/register/user'),
+      Uri.parse('http://10.0.2.2:8080/api/v1/auth/Userauth/register/user'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
-        'username': user.username,
-        'email': user.email,
-        'password': user.password,
-      }),
-    );
-    print(response.body);
+      body: jsonEncode(user.toJson()),
+      );
+    if(response.statusCode == 200){
+      return <String, dynamic>{
+        'isOk' : true,
+        'message' : jsonDecode(jsonEncode(response.body)),
+      };
+    }else{
+      return <String, dynamic>{
+        'isOk' : false,
+        'message' : jsonDecode(jsonEncode(response.body)),
+      };
+    }
   }
 
   @override
@@ -196,7 +228,7 @@ class _SignupState extends State<Signup> {
                                 ),
                               ),
                               onTap: () =>
-                                  Navigator.popAndPushNamed(context, '/login'),
+                                  Navigator.popAndPushNamed(context, '/Login'),
                             )
                           ],
                         ),

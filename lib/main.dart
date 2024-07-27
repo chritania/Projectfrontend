@@ -12,7 +12,7 @@ import 'package:project/services/transactionHistory.dart';
 
 
 void main() =>runApp(MaterialApp(
-  initialRoute: '/',
+  initialRoute: '/Signup',
   routes: {
     '/' : (context) => Homepage(),
     '/Login' : (context) => Login(),

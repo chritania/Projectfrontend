@@ -38,7 +38,7 @@ class _CartState extends State<Cart> {
             'Content-Type' : 'application/json'
           }
       );
-      print(jsonDecode(response.body));  // Print JSON response for debugging
+      print(response.body);  // Print JSON response for debugging
       final data = jsonDecode(response.body);
       for(var item in data){
         orders.add(<String, dynamic>{
@@ -117,13 +117,14 @@ class _CartState extends State<Cart> {
             }
             if (snapshots.hasData) {
               List bagItems = snapshots.data!;
+              print(bagItems.length.toString());
               return Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
                       itemCount: bagItems.length,
-                      itemBuilder: (context, index) {
-                        final item = bagItems[index];
+                      itemBuilder: (context, bagIndex) {
+                        final item = bagItems[bagIndex];
                         return Container(
                           margin: EdgeInsets.all(10.0),
                           padding: EdgeInsets.all(10.0),
@@ -139,7 +140,7 @@ class _CartState extends State<Cart> {
                             ],
                           ),
                           child: ListTile(
-                            title: Text(item['product'].name),
+                            title: Text(item['product'].productName),
                             subtitle: Text('Quantity: ${item['numberOfOrder']}'),
                             trailing: IconButton(
                               icon: Icon(Icons.remove_circle_outline),

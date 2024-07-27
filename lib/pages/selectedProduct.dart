@@ -38,7 +38,7 @@ class _selectedProductState extends State<selectedProduct> {
       final userCredentials = await _loadCredential();
       final basicAuth = base64Encode(utf8.encode('${userCredentials['email']}:${userCredentials['password']}'));
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/api/v1/bag'),
+        Uri.parse('http://10.0.2.2:8080/api/v1/bag/new'),
         headers: <String, String>{
           'Authorization': 'Basic $basicAuth',
           'Content-Type': 'application/json; charset=UTF-8',
